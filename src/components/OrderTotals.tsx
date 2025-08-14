@@ -5,16 +5,24 @@ import { formatCurrency } from "../helpers";
 type OrderTotalProps = {
   tip: number;
   order: OrderItem[];
+  placeOrder: () => void;
 };
 
-export default function OrderTotals({ order, tip }: OrderTotalProps) {
+export default function OrderTotals({
+  order,
+  tip,
+  placeOrder,
+}: OrderTotalProps) {
   const subTotalAmount = useMemo(
     () => order.reduce((total, item) => total + item.quantity * item.price, 0),
     [order]
   );
 
-  const tipAmount = useMemo(() => subTotalAmount * tip, [tip, order]);
-  const totalAmount = useMemo(() => subTotalAmount + tipAmount, [tip, order]);
+  const tipAmount = useMemo(() => subTotalAmount * tip, [subTotalAmount, tip]);
+  const totalAmount = useMemo(
+    () => subTotalAmount + tipAmount,
+    [subTotalAmount, tipAmount]
+  );
   return (
     <>
       <div className="space-y-3">
@@ -39,6 +47,7 @@ export default function OrderTotals({ order, tip }: OrderTotalProps) {
         disabled:cursor-no-drop
         uppercase text-white"
         disabled={totalAmount === 0}
+        onClick={placeOrder}
       >
         Guardar orden
       </button>
