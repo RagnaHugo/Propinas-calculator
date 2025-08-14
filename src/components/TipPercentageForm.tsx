@@ -7,6 +7,8 @@ export default function TipPercentageForm({
   tip,
   setTip,
 }: TipPercentageFormProps) {
+  console.log(tip);
+
   const tipOptions = [
     {
       id: "tip-10",
